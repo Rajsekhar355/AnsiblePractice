@@ -8,7 +8,7 @@
 
   - name: enable and start nginx
     ansible.builtin.service:
-    - name: nginx
+      name: nginx
       enabled: yes
       state: started
 
@@ -23,8 +23,9 @@
       state: directory
 
   - name: downalod web code
-    ansible.builtin.get_url: https://roboshop-builds.s3.amazonaws.com/web.zip
-    dest: /tmp
+    ansible.builtin.get_url: 
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
+      dest: /tmp
 
   - name: unarchieve web code
     ansible.builtin.unarchive:
