@@ -1,0 +1,13 @@
+- name: "nginx installtion"
+  hosts: web
+  become: yes #for root access
+  tasks:
+  - name: "nginx install"
+    ansible.builtin.pacakge:
+      name: nginx
+      state: present
+
+  - name: "service start"
+    ansible.builtin.service:
+      name: nginx
+      state: started

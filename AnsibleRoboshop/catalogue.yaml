@@ -1,0 +1,77 @@
+- name: catalogue
+  hosts: catalogue
+  become: yes
+
+  tasks:
+  - name: disable and enable nodejs 18
+    ansible.builtin.shell: dnf module disable nodejs -y; dnf module enable nojes:18 -y
+
+  - name: install nodejs
+    ansible.builtin.dnf:
+      name: nodejs
+      state: present
+
+  - name: create user roboshop
+    ansible.builtin.user:
+      name: roboshop
+
+  - name: create directory
+    ansible.builtin.file:
+      name: /app
+      state: directory
+  
+  - name: download catalogue code
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+
+  - name: unarchieve zip
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install npm dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app
+
+  - name: copy catlogue service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: copy mogodb repo file
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: install mondodb client
+    ansible.builtin.dnf:
+      name: mongo-org-shell
+      state: present
+  
+  - name: load schema
+    ansible.builitin.shell: mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js
+    run_once: true
+
+
+  # - name: enable service
+  #   ansible.builtin.service:
+  #     name: catalogue
+  #     state: enabled
+    
+  # - name: restart service
+  #   ansible.builtin.service:
+  #     name: catlogue
+  #     state: restarted
+
+
+    - name: enable and restart service
+      ansible.builtin.service:
+        enabled: yes
+        state: restarted

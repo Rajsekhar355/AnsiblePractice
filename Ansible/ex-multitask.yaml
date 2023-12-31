@@ -1,0 +1,13 @@
+- name: multi task
+  hosts: web
+  tasks:
+  - name: Play1 from task 1
+    ansible.builtin.debug: 
+      msg: "Hello play 1"
+      
+- name: play2 from task2
+  hosts: web
+  tasks:
+  - name: Play2
+    ansible.builtin.debug:
+      msg: "Hello play 2"

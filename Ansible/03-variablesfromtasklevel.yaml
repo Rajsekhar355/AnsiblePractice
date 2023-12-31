@@ -1,0 +1,9 @@
+- name: task level variables
+  hosts: WEB
+  tasks:
+  - name: task lvel vars
+    vars:
+      PERSON1: "Hello"
+      PERSON2: "Raj"
+    ansible.buitin.debug: 
+      msg: "Heee {{PERSON1}} from {{PERSON2}}"

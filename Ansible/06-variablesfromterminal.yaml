@@ -1,0 +1,10 @@
+- name: variables from terminal
+  hosts: WEB
+  tasks:
+  - name: variables from terminal
+    ansible.builtin.debug:
+      msg: "Hi {{MSG1}} from terminal"
+
+
+# to run this from terminal
+#ansible-playbook -i inventory.ini -e "ansible_user=user" -e "ansible_password=pwd" -e "MSG1=hello" variablesfromterminal.yaml

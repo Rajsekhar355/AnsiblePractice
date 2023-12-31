@@ -1,0 +1,9 @@
+- name: variables in playbook
+  hosts: localhost
+  vars:
+    PERSON1: "HELLO RAJ"
+    PERSON2: "HELLO RISHI"
+  tasks:
+  - name: Varaibales get from playbook
+    ansible.builtin.debug:
+      msg: "MSG {{PERSON1}} and  {{PERSON2}}"

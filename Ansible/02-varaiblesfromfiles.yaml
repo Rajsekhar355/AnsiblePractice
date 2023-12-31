@@ -1,0 +1,8 @@
+- name: vars from files
+  vars_files:
+    - variables.yaml
+  hosts: web
+  tasks:
+  - name: variables from files
+    ansible.builtin.debug:
+      msg: "From files: {{PERSON1}} and  {{PERSON2}}"

@@ -1,0 +1,17 @@
+- name: rajasekar
+  dob: 21-09-1990
+  address: 
+    - street: gayatri nagr
+      pincode: 500018
+      City: hyderabad
+- name: Ramesh
+  dob: 31-09-1990
+  address: 
+    - street: dish
+      pincode: 500036
+      city: hyderabad
+    - street: ds
+      pincode: 50067
+      city: mumbai
+  email: raj@gmail.com
+  

@@ -1,0 +1,27 @@
+- name: loops example
+  hosts: WEB
+  tasks:
+  - name: print persons
+    ansible.builtin.debug:
+      msg: "This {{item}} from loop"
+    loop:
+    - Raj
+    - Ramesh
+    - Rahul
+
+  - name: install softwares
+    ansible.builtin.package:
+      name: {{item}}
+      state: present
+    loop:
+    - git
+    - mysql
+    - postfix
+
+  - name: install sw
+    ansible.builtin.package:
+      name: {{item.name}}
+      state: {{item.state}}
+    loop:
+    - {name: git, state: present}
+    - {name: mysql, state: absent}

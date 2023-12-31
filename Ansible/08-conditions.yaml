@@ -1,0 +1,21 @@
+- name: conditions exmaple
+  hosts: WEB
+  become: yes
+  tasks:
+  - name: if user is exits or not
+    ansible.builtin.command: "id roboshop"
+    register: isusercreated
+    ignore_errors: true
+
+#1 Way 1
+  - name: create user if not exists
+    ansible.builtin.command: "useradd roboshop"
+    when: isusercreated.rc != 0
+
+#2 Way 2 (Recommended to use by default modules)
+
+  - name : create user
+    ansible.builtin.user:
+      name: "Raj"
+    when: isusercreated.rc != 0
+

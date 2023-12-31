@@ -1,0 +1,38 @@
+- name: web
+  hosts: web
+  tasks:
+  - name: install nginx
+    ansible.builtin.package:
+      name: nginx
+      state: present
+
+  - name: enable and start nginx
+    ansible.builtin.service:
+    - name: nginx
+      enabled: yes
+      state: started
+
+  - name: remove existing directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
+
+   - name: remove existing directory
+     ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: directory
+
+  - name: downalod web code
+    ansible.builtin.get_url: https://roboshop-builds.s3.amazonaws.com/web.zip
+    dest: /tmp
+
+  - name: unarchieve web code
+    ansible.builtin.unarchive:
+      src: /tmp/web.zip
+      dest: /usr/share/nginx/html
+      remote_src: yes
+  
+  - name: restart service
+    ansible.builtin.service:
+      name: nginx
+      state: restarted

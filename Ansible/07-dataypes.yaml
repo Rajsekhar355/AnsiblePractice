@@ -1,0 +1,32 @@
+- name: data types
+  hosts: WEB
+  vars:
+    MYNAME: "Rajasekar"
+    skills:
+      - Android
+      - Java
+      - Automation
+      - Devops
+    experience:
+      Android: 3
+      Java: 2
+      Automation: 3
+      Devops: 3
+    
+    booleantype: true
+
+  tasks:
+  - name: print string
+    ansible.builtin.debug:
+      msg: "printing string {{MYNAME}}"
+  - name: print array
+    ansible.builtin.debug:
+      msg: "printing skills array {{skills}}"
+  
+  - name: print map
+    ansible.builtin.debug:
+      msg: "printing map experience {{experience}}"
+  
+  - name: print boolean
+    ansible.builtin.debug:
+      msg: "printing bollean {{booleantype}}"
