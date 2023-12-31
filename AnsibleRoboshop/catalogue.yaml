@@ -56,7 +56,7 @@
       state: present
   
   - name: load schema
-    ansible.builitin.shell: "mongo --host 172.31.22.64 </app/schema/catalogue.js"
+    ansible.builtin.shell: "mongo --host 172.31.22.64 </app/schema/catalogue.js"
     run_once: true
 
 
