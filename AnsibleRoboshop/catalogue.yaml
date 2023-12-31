@@ -56,7 +56,7 @@
       state: present
   
   - name: load schema
-    ansible.builitin.shell: mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js
+    ansible.builitin.shell: mongo --host 172.31.22.64 </app/schema/catalogue.js
     run_once: true
 
 
@@ -71,7 +71,7 @@
   #     state: restarted
 
 
-    - name: enable and restart service
-      ansible.builtin.service:
-        enabled: yes
-        state: restarted
+  - name: enable and restart service
+    ansible.builtin.service:
+      enabled: yes
+      state: restarted

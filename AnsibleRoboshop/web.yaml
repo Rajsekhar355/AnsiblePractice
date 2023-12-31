@@ -17,8 +17,8 @@
       path: /usr/share/nginx/html
       state: absent
 
-   - name: remove existing directory
-     ansible.builtin.file:
+  - name: create existing directory
+    ansible.builtin.file:
       path: /usr/share/nginx/html
       state: directory
 
