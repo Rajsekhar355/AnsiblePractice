@@ -47,8 +47,8 @@
 
   - name: copy mogodb repo file
     ansible.builtin.copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongodb.repo
 
   - name: install mondodb client
     ansible.builtin.dnf:
