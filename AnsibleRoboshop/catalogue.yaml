@@ -52,7 +52,7 @@
 
   - name: install mondodb client
     ansible.builtin.dnf:
-      name: mongo-org-shell
+      name: mongodb-org-shell
       state: present
   
   - name: load schema
