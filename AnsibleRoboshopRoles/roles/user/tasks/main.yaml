@@ -13,8 +13,7 @@
     name: common
     tasks_from: systemd
 
-
-- name: "{{component}} mongodb configuration"
+- name: "mongodb {(component}} configuration"
   ansible.builtin.import_file:
-    name: mongodb
-    tasks_from: mondodb
+    name: common
+    tasks_from: mongo
