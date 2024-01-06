@@ -8,12 +8,12 @@
     name: common
     tasks_from: nodejs
 
-- name: "restart {{component}} and reload service"
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
-
 - name: "mongodb {(component}} configuration"
   ansible.builtin.import_role:
     name: common
     tasks_from: mongo
+
+- name: "restart {{component}} and reload service"
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
