@@ -1,0 +1,32 @@
+- name: in memory storage for roboshop
+  hosts: redis
+  become: yes
+  tasks:
+  - name: redis releae instalaltion
+    ansible.builtn.dnf:
+      name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+      state: present
+      disable_gpg_check: true
+  
+  - name: enable redis
+    ansible.builtin.command: "dnf module enable redis:remi-6.2 -y"
+
+  - name: install redis
+    ansible.builtin:dnf:
+      name: redis
+      state: present
+  
+  - name: allow remote conenctions
+    ansible.builtin.command: "sed s/127.0.0.1/0.0.0.0/g /etc/redis.conf"
+
+  - name: allow remote conenctions
+    ansible.builtin.replace:
+      path: /etc/redis/redis.conf
+      regex: '127.0.0.1'
+      replace: '0.0.0.0'
+
+  - name: enable and start service
+    ansible.builtin.service:
+      name: redis
+      state: started
+      enabled: yes

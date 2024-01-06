@@ -1,0 +1,38 @@
+- name: copy {{component}} service
+  ansible.builtin.copy:
+    src: "{{component}}.service"
+    dest: "/etc/systemd/system/{{component}}.service"
+
+- name: copy mogodb repo file
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: install mondodb client
+  ansible.builtin.dnf:
+    name: mongodb-org-shell
+    state: present
+
+- name: "get the {{component}} entries count"
+  ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: products_count
+  when: component == "catalogue"
+
+- name: "get the {{component}} entries count"
+  ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  register: users_count
+  when: component == "user"
+
+# - name: print the count
+#   ansible.builtin.debug:
+#     msg: "entries count: {{entries_count}}"
+
+- name: "load {{component}} data"
+  ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
+  when: component == "catalogue" and products_count.stdout == "0"  # keep double quotes
+  #ignore_errors: true
+
+- name: "load {{component}} data"
+  ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
+  when: component == "user" and users_count.stdout == "0"  # keep double quotes
+  #ignore_errors: true

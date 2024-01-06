@@ -1,0 +1,65 @@
+- name: user configuartion
+  hosts: user
+  tasks:
+  - name: disable and enable nodejs18
+    ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
+
+  - name: install nodejs 
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+    
+  - name: create user
+    ansible.builtin.user:
+      name: roboshop
+      state: present
+  
+  - name: create app directory
+    ansible.builtin.file:
+      name: /app
+      state: directory
+
+  - name: download user code
+    ansile.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/user.zip
+      dest: /tmp
+
+  - name: unarchieve zip
+    ansible.builtin.unarchive:
+      src: /tmp/user.zip
+      dest: /app
+      remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: "npm install"
+    args:
+      chdir: /app
+
+  - name: copy service conf file
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name: daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+  
+  - name: enable and start user
+    ansible.builtin.service:
+      name: user
+      state: started
+      enabled: yes
+
+  - name: copy mongo repo
+    ansible.builtin.copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongodb.repo
+
+  - name: install mongo client
+    ansible.builtin.package:
+      name: mongodb-org-shell
+      state: present
+  
+  - name: import db data
+    ansible.builtin.shell: mongo --host MONGODB-SERVER-IPADDRESS </app/schema/user.js
+    run_once: true
