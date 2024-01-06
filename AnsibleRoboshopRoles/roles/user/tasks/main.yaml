@@ -14,6 +14,6 @@
     tasks_from: systemd
 
 - name: "mongodb {(component}} configuration"
-  ansible.builtin.import_file:
+  ansible.builtin.import_role:
     name: common
     tasks_from: mongo
