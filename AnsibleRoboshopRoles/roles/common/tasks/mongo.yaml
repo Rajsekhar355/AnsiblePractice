@@ -8,15 +8,15 @@
     name: mongodb-org-shell
     state: present
 
-- name: "get the {{component}} entries count"
-  ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB('catalogue'); db.products.count()'"
-  register: products_count
-  when: component == "catalogue"
+# - name: "get the catalogue entries count"
+#   ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+#   register: products_count
+#   when: component == "catalogue"
 
-- name: "get the {{component}} entries count"
-  ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB('users'); db.users.count()'"
-  register: users_count
-  when: component == "user"
+# - name: "get the user entries count"
+#   ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+#   register: users_count
+#   when: component == "user"
 
 # - name: print the count
 #   ansible.builtin.debug:
@@ -25,9 +25,11 @@
 - name: "load {{component}} data"
   ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
   when: component == "catalogue" and products_count.stdout == "0"  # keep double quotes
+  run_once: true
   #ignore_errors: true
 
 - name: "load {{component}} data"
   ansible.builtin.shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
   when: component == "user" and users_count.stdout == "0"  # keep double quotes
+  run_once: true
   #ignore_errors: true

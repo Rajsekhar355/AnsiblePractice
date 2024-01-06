@@ -8,13 +8,12 @@
     name: common
     tasks_from: nodejs
 
-- name: import systemd
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
-
-
 - name: import mongodb configuartion
   ansible.builtin.import_role:
     name: common
     tasks_from: mongo
+
+- name: import systemd
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
