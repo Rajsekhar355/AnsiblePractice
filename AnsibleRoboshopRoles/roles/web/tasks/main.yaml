@@ -1,12 +1,13 @@
 - name: nginx install
-  ansible.builtin.command:
+  ansible.builtin.package:
     name: nginx
     state: present
 
 - name: start and enable nginx
   ansible.builtin.service:
     name: nginx
-    state: present
+    state: started
+    enabled: yes
 
 - name: disable directory
   ansible.builtin.file:
