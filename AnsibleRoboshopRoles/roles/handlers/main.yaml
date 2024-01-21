@@ -1,0 +1,19 @@
+# by using listen we can do mutiple tasks when notify any update
+- name: Gracefully restart the web server
+  service:
+    name: webserver
+    state: restarted
+  listen: "Restart Necessary Services"
+
+- name: And, don't forget the cache service!
+  service:
+    name: cacheservice
+    state: restarted
+  listen: "Restart Necessary Services"
+
+
+# Ansible Handler: This will restart the Nginx server
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted

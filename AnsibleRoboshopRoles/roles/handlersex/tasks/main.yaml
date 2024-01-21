@@ -1,0 +1,28 @@
+- name: Ansible multiple handler 
+  hosts: webservers
+  tasks:
+  - name: Ensure the web server configuration is updated
+    copy:
+      src: /path/to/your/config.conf
+      dest: /destination/on/server/config.conf
+    notify: "Restart Necessary Services"
+
+
+
+- name: updated.html copy
+  template: 
+    src=updated.html 
+    dest=/usr/share/nginx/html/index.html
+  notify:
+    - Restart Nginx
+
+
+# sequence orders if multiple notify
+
+- name: Deploy the application
+  copy:
+    src: /path/to/app/
+    dest: /destination/on/server/
+  notify:
+    - "Clear Cache"     # Execution Order 1
+    - "Restart App"     # Execution Order 2
